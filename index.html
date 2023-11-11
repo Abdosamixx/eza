@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>أزرار الرصيد</title>
+</head>
+<body>
+
+<p>الصفحة الأولى</p>
+<button id="ok1" onclick="addMoney('ok1')">OK1</button>
+<button id="ok2" onclick="addMoney('ok2')">OK2</button>
+<button id="ok3" onclick="addMoney('ok3')">OK3</button>
+<button id="ok4" onclick="addMoney('ok4')">OK4</button>
+<button id="ok5" onclick="addMoney('ok5')">OK5</button>
+<span id="moneyDisplay">الرصيد: 0 دولار</span>
+
+<script>
+    // تحديث عرض المال عند تحميل الصفحة
+    window.onload = function() {
+        updateMoneyDisplay();
+
+        // تحديث عرض المال عند حدوث تغيير في localStorage
+        window.addEventListener('storage', function() {
+            updateMoneyDisplay();
+        });
+    };
+
+    var clickCounts = { ok1: 0, ok2: 0, ok3: 0, ok4: 0, ok5: 0 };
+
+    function addMoney(buttonId) {
+        if (clickCounts[buttonId] === 0) {
+            alert('تمت إضافة 0.2 دولار!');
+            var currentAmount = parseFloat(localStorage.getItem("money")) || 0;
+            var newAmount = currentAmount + 0.2;
+            localStorage.setItem("money", newAmount.toFixed(2));
+            updateMoneyDisplay();
+            clickCounts[buttonId] = 1;
+        } else {
+            alert('لا يمكنك المحاولة مرة أخرى');
+        }
+    }
+
+    function updateMoneyDisplay() {
+        var currentAmount = parseFloat(localStorage.getItem("money")) || 0;
+        document.getElementById("moneyDisplay").innerText = 'الرصيد: ' + currentAmount.toFixed(2) + ' دولار';
+    }
+</script>
+
+</body>
+</html>
